@@ -1,0 +1,36 @@
+{
+  "name": "node-red-contrib-gorules",
+  "version": "0.0.1",
+  "description": "A Node Red block for GoRules",
+  "dependencies": {
+    "@gorules/zen-engine": "^0.3.3"
+  },
+  "bundledDependencies": [
+    "@gorules/zen-engine"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kalemena/node-red-contrib-gorules.git",
+    "directory": "tree/master"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node-red",
+    "gorules",
+    "rules",
+    "decision table"
+  ],
+  "node-red": {
+    "version": ">=3.0.0",
+    "nodes": {
+      "gorules": "gorules.js"
+    }
+  },
+  "author": {
+    "name": "Kalemena",
+    "url": "https://github.com/kalemena"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
