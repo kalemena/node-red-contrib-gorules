@@ -1,0 +1,9 @@
+# Ignore everything
+*
+# But these ...
+!package.json
+!gorules.*
+!readme.md
+!LICENSE
+!examples
+!docs
