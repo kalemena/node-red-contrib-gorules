@@ -13,6 +13,9 @@ module.exports = function(RED) {
         // Initialize node
         node.status({ });
 
+        // properties
+        node.decisionJsonFile = config.decisionJsonFile;
+       
         node.engine = new ZenEngine();
 
         // ===============
@@ -20,6 +23,25 @@ module.exports = function(RED) {
         this.on('input', function(msg) {
           node.status({ fill: "blue", shape: "dot", text: "..." });
 
+          (async () => {
+            // Example filesystem content, it is up to you how you obtain content
+            // e.g. '/opt/node-red-contrib-gorules/examples/rules/shipping-fees.json'
+
+            const content = await fs.readFile(node.decisionJsonFile);
+            // const engine = new ZenEngine();
+            const decision = await node.engine.createDecision(content);
+
+            const result = await decision.evaluate(msg.payload);
+            console.log(result)
+            return result;
+
+          })().then(result => {
+
+            msg.result = result;
+            node.send(msg);
+
+            node.status({ });
+          });
 
         });
 
