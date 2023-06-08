@@ -1,5 +1,6 @@
 const { ZenEngine } = require('@gorules/zen-engine');
 const fs = require('fs/promises');
+const path = require('path');
 
 module.exports = function(RED) {
 
@@ -14,35 +15,57 @@ module.exports = function(RED) {
         node.status({ });
 
         // properties
+        // 'file', 'parameter', 'loader'
+        node.loadStrategy = config.loadStrategy 
         node.decisionJsonFile = config.decisionJsonFile;
        
-        node.engine = new ZenEngine();
+        // instantiate
+        
+        switch(node.loadStrategy) {
+          case 'loader':
+            break;
+          case 'parameter':
+            break;
+          default:
+          case 'file':
+            (async () => {
+              const content = await fs.readFile(node.decisionJsonFile);
+              return content;
+            })().then(content => {
+              node.content = content;
+              node.engine = new ZenEngine();
+            });
+            break;
+        }
 
         // ===============
         // Handle input node event
         this.on('input', function(msg) {
           node.status({ fill: "blue", shape: "dot", text: "..." });
 
-          (async () => {
-            // Example filesystem content, it is up to you how you obtain content
-            // e.g. '/opt/node-red-contrib-gorules/examples/rules/shipping-fees.json'
-
-            const content = await fs.readFile(node.decisionJsonFile);
-            // const engine = new ZenEngine();
-            const decision = await node.engine.createDecision(content);
-
-            const result = await decision.evaluate(msg.payload);
-            console.log(result)
-            return result;
-
-          })().then(result => {
-
-            msg.result = result;
-            node.send(msg);
-
-            node.status({ });
-          });
-
+          switch(node.loadStrategy) {
+            case 'loader':
+              break;
+            case 'parameter':
+              break;
+            default:
+            case 'file':
+              (async () => {
+                const decision = await node.engine.createDecision(node.content);
+    
+                const result = await decision.evaluate(msg.payload);
+                console.log(result)
+                return result;
+    
+              })().then(result => {
+    
+                msg.result = result;
+                node.send(msg);
+    
+                node.status({ });
+              });
+              break;
+          }
         });
 
         // Handle Node-red stop
