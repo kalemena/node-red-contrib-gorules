@@ -8,16 +8,21 @@
 
         defaults: {
             name: { value: "" },
-            loadStrategy: { value: "file" },
-            decisionJsonFile: { value: "" }
+            ruleFile: { value: "" }
         },
         inputs: 1,
+        inputLabels: 'inputs',
         outputs: 1,
+        outputLabels: 'outputs',
         icon: "font-awesome/fa-table",
         label: function() {
             return this.name || "GoRules";
         },
 
+        oneditprepare: function() {
+            let self = this._def;
+            console.log(this);
+        }
 
     });
 </script>
@@ -28,12 +33,8 @@
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
     <div class="form-row">
-        <label for="node-input-loadStrategy"><i class="icon-tag"></i>Decision Load As</label>
-        <input type="text" id="node-input-loadStrategy" placeholder="topic">
-    </div>
-    <div class="form-row">
-        <label for="node-input-decisionJsonFile"><i class="icon-tag"></i>Decision File</label>
-        <input type="text" id="node-input-decisionJsonFile" placeholder="topic">
+        <label for="node-input-ruleFile"><i class="icon-tag"></i>Rule File</label>
+        <input type="text" id="node-input-ruleFile" placeholder="topic">
     </div>
 </script>
 

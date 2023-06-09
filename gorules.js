@@ -15,27 +15,18 @@ module.exports = function(RED) {
         node.status({ });
 
         // properties
-        // 'file', 'parameter', 'loader'
-        node.loadStrategy = config.loadStrategy 
-        node.decisionJsonFile = config.decisionJsonFile;
+        node.ruleFile = config.ruleFile;
        
-        // instantiate
-        
-        switch(node.loadStrategy) {
-          case 'loader':
-            break;
-          case 'parameter':
-            break;
-          default:
-          case 'file':
-            (async () => {
-              const content = await fs.readFile(node.decisionJsonFile);
-              return content;
-            })().then(content => {
-              node.content = content;
-              node.engine = new ZenEngine();
-            });
-            break;
+        // pre-load rule file
+        if(node.ruleFile != undefined) {
+          (async () => {
+            node.content = await fs.readFile(node.ruleFile);
+            node.engine = new ZenEngine();
+            node.decision = node.engine.createDecision(node.content);
+            return node.content;
+          })().then(content => {
+            node.status({ fill: "green", shape: "dot", text: "(loaded)" });
+          });          
         }
 
         // ===============
@@ -43,29 +34,23 @@ module.exports = function(RED) {
         this.on('input', function(msg) {
           node.status({ fill: "blue", shape: "dot", text: "..." });
 
-          switch(node.loadStrategy) {
-            case 'loader':
-              break;
-            case 'parameter':
-              break;
-            default:
-            case 'file':
-              (async () => {
-                const decision = await node.engine.createDecision(node.content);
-    
-                const result = await decision.evaluate(msg.payload);
-                console.log(result)
-                return result;
-    
-              })().then(result => {
-    
-                msg.result = result;
-                node.send(msg);
-    
-                node.status({ });
-              });
-              break;
+          // https://gorules.io/docs/rules-engine/engines/nodejs
+
+          if(msg.input != undefined) {
+            (async () => {
+              // const decision = await node.engine.createDecision(node.content);
+              const result = await node.decision.evaluate(msg.input);
+              console.log(result)
+              return result;
+  
+            })().then(result => {
+              msg.output = result;
+              node.send(msg);
+  
+              node.status({ });
+            });
           }
+          
         });
 
         // Handle Node-red stop
