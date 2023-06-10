@@ -11,4 +11,4 @@ services:
      - ./examples:/data
 #     - ./settings.js:/home/node-red/settings.js
     environment:
-     - FLOWS=/data/flows/flows.json
+     - FLOWS=/data/flows.json
