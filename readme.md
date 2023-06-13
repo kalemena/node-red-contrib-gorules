@@ -10,6 +10,13 @@ Details for GoRules available at [https://gorules.io/](https://gorules.io/)
 
 Implementation of this Block is done following [NodeJS guide](https://gorules.io/docs/rules-engine/engines/nodejs)
 
+# Installation
+
+From node-red home directory, run below command:
+
+```bash
+$ npm -i node-red-contrib-gorules
+```
 
 # Test
 
