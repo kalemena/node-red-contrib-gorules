@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-gorules",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A Node Red block for GoRules",
   "dependencies": {
     "@gorules/zen-engine": "^0.3.3"
