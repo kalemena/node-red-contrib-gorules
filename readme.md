@@ -1,3 +1,5 @@
+![Publish](https://github.com/kalemena/node-red-contrib-gorules/workflows/Publish/badge.svg)
+
 # node-red-contrib-gorules
 
 Node-Red block to integrate GoRules as a Rules Engine.
@@ -22,7 +24,7 @@ $ npm -i node-red-contrib-gorules
 
 ## Screenshot
 
-![Example Flow](docs/examples-default.png "Example Flow")
+![Example Flow](docs/examples-default.png)
 
 See [GoRules official example for details](https://gorules.io/docs/tutorials/fintech-company-analysis)
 
