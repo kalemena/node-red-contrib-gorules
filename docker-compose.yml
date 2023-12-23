@@ -9,6 +9,7 @@ services:
      - "2880:1880"
     volumes:
      - ./examples:/data
+     - ./examples-rules:/examples-rules
 #     - ./settings.js:/home/node-red/settings.js
     environment:
      - FLOWS=/data/flows.json
